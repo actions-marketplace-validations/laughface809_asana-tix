@@ -1,5 +1,5 @@
-name: 'Asana Git'
-description: 'Asana Github Actions'
+name: 'Asana Tix'
+description: 'Asana Tix Actions'
 inputs:
   asana-pat:
     description: 'Asana Public Access Token.'
