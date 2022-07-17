@@ -48,7 +48,7 @@ try {
     TARGETS = core.getInput('targets'),
     TRIGGER_PHRASE = core.getInput('trigger-phrase'),
     TASK_COMMENT = core.getInput('task-comment'),
-    PULL_REQUEST = github.context.payload.push,
+    PULL_REQUEST = github.event.head_commit.message,
     REGEX = new RegExp(
       `${TRIGGER_PHRASE} *\\[(.*?)\\]\\(https:\\/\\/app.asana.com\\/(\\d+)\\/(?<project>\\d+)\\/(?<task>\\d+).*?\\)`,
       'g'
@@ -63,7 +63,7 @@ try {
   if (TASK_COMMENT) {
     taskComment = `${TASK_COMMENT} ${PULL_REQUEST.html_url}`;
   }
-  while ((parseAsanaURL = REGEX.exec(PULL_REQUEST.body)) !== null) {
+  while ((parseAsanaURL = REGEX.exec(PULL_REQUEST)) !== null) {
     let taskId = parseAsanaURL.groups.task;
     if (taskId) {
       asanaOperations(ASANA_PAT, targets, taskId, taskComment);
